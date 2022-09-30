@@ -5,6 +5,8 @@ import org.example.entiti.Worker;
 import org.hibernate.Session;
 
 import javax.persistence.Query;
+import java.util.List;
+
 
 /**
  * Ryskeldi
@@ -16,10 +18,10 @@ import javax.persistence.Query;
  */
 public class App {
     public static void main(String[] args) throws InstantiationException, IllegalAccessException {
-//
+
 //        Worker worker1 = new Worker("Samat", "Osmonov", 34);
 //        Worker worker2 = new Worker("Aza", "Imanaliev", 40);
-//        Worker worker3 = new Worker("Ulan", "Jakypiv", 23);
+//        Worker worker3 = new Worker("Aza", "Jakypiv", 23);
 //        Worker worker4 = new Worker("Aza", "Ormonaov", 19);
 //        Worker worker5 = new Worker("Uluk", "Sakylbekov", 21);
 //         create(worker1);
@@ -27,6 +29,7 @@ public class App {
 //         create(worker3);
 //         create(worker4);
 //         create(worker5);
+       // System.out.println(getByAza("Aza",20));
         // ByNameAndAGe("Aza",18);
         deleteByName("Aza");
     }
@@ -39,6 +42,17 @@ public class App {
         session.close();
         System.out.println("Added successfully " + worker);
         return worker.getId();
+    }
+
+    public static List<Worker> getByAza(String name , int age){
+        Session session = HIbernetUtil.getSession().openSession();
+        session.beginTransaction();
+        List<Worker> workers = session.createQuery("FROM Worker e WHERE e.name =: name and e.age >: age").
+                setParameter("name",name).setParameter("age",age).getResultList();
+        session.getTransaction().commit();
+        session.close();
+        System.out.println("found" + workers.size() + "user");
+        return workers;
     }
 
     public static void ByNameAndAGe(String name, int age) {
