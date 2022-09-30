@@ -51,7 +51,6 @@ public class App {
                 setParameter("name",name).setParameter("age",age).getResultList();
         session.getTransaction().commit();
         session.close();
-        System.out.println("found" + workers.size());
         return workers;
     }
 
